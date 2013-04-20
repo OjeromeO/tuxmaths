@@ -522,7 +522,7 @@ int run_lan_host(void)
     /* No SDL_net, so show explanatory message: */
 #else
     ShowMessageWrap(DEFAULT_MENU_FONT_SIZE,_("\nSorry, this version built without network support.")); 
-    printf( _("Sorry, this version built without network support.\n"));
+    fprintf(stderr,  _("Sorry, this version built without network support.\n"));
 #endif
     return 0;
 }

@@ -573,7 +573,7 @@ void server_handle_command_args(int argc, char* argv[])
         else if (strcmp(argv[i], "--copyright") == 0 ||
                 strcmp(argv[i], "-c") == 0)
         {
-            printf(
+            fprintf(stderr, 
                     "\n\"Tux, of Math Command Server\" version " VERSION ", Copyright (C) 2009, 2010\n"
                     "David Bruce, Akash Gangil, and the Tux4Kids Project.\n"
                     "This program is free software; you can redistribute it and/or\n"

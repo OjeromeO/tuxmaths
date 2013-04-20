@@ -131,7 +131,7 @@ int main(int argc, char *argv[])
         else if (strcmp(argv[i], "--copyright") == 0 ||
                 strcmp(argv[i], "-c") == 0)
         {
-            printf(
+            fprintf(stderr, 
                     "\ntuxmathadmin version " ADMINVERSION ", Copyright (C) 2007 Tim Holy\n"
                     "This program is free software; you can redistribute it and/or\n"
                     "modify it under the terms of the GNU General Public License\n"

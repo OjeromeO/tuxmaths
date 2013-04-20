@@ -299,7 +299,7 @@ int MC_Initialize(MC_MathGame* game)
     DEBUGCODE(debug_mathcards)
     {
         MC_PrintMathOptions(game, stdout, 0);
-        printf("\nLeaving MC_Initialize()\n");
+        fprintf(stderr, "\nLeaving MC_Initialize()\n");
     }
 
     return 1;
@@ -433,7 +433,7 @@ int MC_StartGameUsingWrongs(MC_MathGame* game)
         if (debug_status & debug_mathcards) {
             print_counters(game);
             print_list(stdout, game->question_list);
-            printf("\nLeaving MC_StartGameUsingWrongs()\n");
+            fprintf(stderr, "\nLeaving MC_StartGameUsingWrongs()\n");
         }
 
         return 1;
@@ -492,10 +492,10 @@ int MC_NextQuestion(MC_MathGame* game, MC_FlashCard* fc)
     game->active_quests = append_node(game->active_quests, ptr);
 
     if (debug_status & debug_mathcards) {
-        printf("\nnext question is:");
+        fprintf(stderr, "\nnext question is:");
         print_card(*fc);
         print_counters(game);
-        printf("\n\nLeaving MC_NextQuestion()\n");
+        fprintf(stderr, "\n\nLeaving MC_NextQuestion()\n");
     }
 
     return 1;
@@ -538,9 +538,9 @@ int MC_AnsweredCorrectly(MC_MathGame* game, int id, float t)
 
     DEBUGCODE(debug_mathcards)
     {
-        printf("\nQuestion was:");
+        fprintf(stderr, "\nQuestion was:");
         print_card(quest->card);
-        printf("Player recieves %d points\n", points);
+        fprintf(stderr, "Player recieves %d points\n", points);
     }
 
 
@@ -575,7 +575,7 @@ int MC_AnsweredCorrectly(MC_MathGame* game, int id, float t)
     DEBUGCODE(debug_mathcards)
     {
         print_counters(game);
-        printf("\nLeaving MC_AnsweredCorrectly()\n");
+        fprintf(stderr, "\nLeaving MC_AnsweredCorrectly()\n");
     }
 
     /* Record the time it took to answer: */ 
@@ -634,7 +634,7 @@ int MC_NotAnsweredCorrectly(MC_MathGame* game, int id)
         DEBUGCODE(debug_mathcards)
         {
             print_counters(game);
-            printf("\nLeaving MC_AnsweredCorrectly()\n");
+            fprintf(stderr, "\nLeaving MC_AnsweredCorrectly()\n");
         }
 
         /* can put in more than one copy (to drive the point home!) */
@@ -677,7 +677,7 @@ int MC_NotAnsweredCorrectly(MC_MathGame* game, int id)
     DEBUGCODE(debug_mathcards)
     {
         print_counters(game);
-        printf("\nLeaving MC_NotAnswered_Correctly()\n");
+        fprintf(stderr, "\nLeaving MC_NotAnswered_Correctly()\n");
     }
 
     return 1;
@@ -1230,8 +1230,8 @@ void print_vect_list(FILE* fp, MC_MathQuestion** vect, int length)
 
 void print_card(MC_FlashCard card)
 {
-    printf("\nprint_card():\n");
-    printf("question_id: %d\nformula_string: %s\nanswer_string: %s\n"
+    fprintf(stderr, "\nprint_card():\n");
+    fprintf(stderr, "question_id: %d\nformula_string: %s\nanswer_string: %s\n"
             "answer: %d\ndifficulty: %d\n\n",
             card.question_id,
             card.formula_string,
@@ -1244,15 +1244,15 @@ void print_card(MC_FlashCard card)
 /* lengths of the question lists to stdout - for debugging */
 void print_counters(MC_MathGame *game)
 {
-    printf("\nquest_list_length = \t%d", game->quest_list_length);
-    printf("\nlist_length(question_list) = \t%d", list_length(game->question_list));
-    printf("\nstarting_length = \t%d", game->starting_length);
-    printf("\nunanswered = \t%d", game->unanswered);
-    printf("\nanswered_correctly = \t%d", game->answered_correctly);
-    printf("\nanswered_wrong = \t%d", game->answered_wrong);
-    printf("\nlist_length(wrong_quests) = \t%d", list_length(game->wrong_quests));
-    printf("\nquestions_pending = \t%d", game->questions_pending);
-    printf("\nlist_length(active_quests) = \t%d", list_length(game->active_quests));
+    fprintf(stderr, "\nquest_list_length = \t%d", game->quest_list_length);
+    fprintf(stderr, "\nlist_length(question_list) = \t%d", list_length(game->question_list));
+    fprintf(stderr, "\nstarting_length = \t%d", game->starting_length);
+    fprintf(stderr, "\nunanswered = \t%d", game->unanswered);
+    fprintf(stderr, "\nanswered_correctly = \t%d", game->answered_correctly);
+    fprintf(stderr, "\nanswered_wrong = \t%d", game->answered_wrong);
+    fprintf(stderr, "\nlist_length(wrong_quests) = \t%d", list_length(game->wrong_quests));
+    fprintf(stderr, "\nquestions_pending = \t%d", game->questions_pending);
+    fprintf(stderr, "\nlist_length(active_quests) = \t%d", list_length(game->active_quests));
 }
 
 
@@ -1522,7 +1522,7 @@ MC_MathQuestion* allocate_node()
     ret = malloc(sizeof(MC_MathQuestion) );
     if (!ret)
     {
-        printf("Could not allocate space for a new node!\n");
+        fprintf(stderr, "Could not allocate space for a new node!\n");
         return NULL;
     }
 
@@ -1970,7 +1970,7 @@ MC_FlashCard MC_AllocateFlashcard(void)
     //     {
     //     free(ret.formula_string);
     //     free(ret.answer_string);
-    //     printf("Couldn't allocate space for a new flashcard!\n");
+    //     fprintf(stderr, "Couldn't allocate space for a new flashcard!\n");
     //     ret = DEFAULT_CARD;
     //     }
     return ret;
@@ -2151,7 +2151,7 @@ int MC_GetOpt(MC_MathGame* game, unsigned int index)
     }
     if (!game->math_opts)
     {
-        printf("Invalid options list!\n");
+        fprintf(stderr, "Invalid options list!\n");
         return MC_MATH_OPTS_INVALID;
     }
     return game->math_opts->iopts[index];
