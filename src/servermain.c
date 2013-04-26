@@ -54,17 +54,21 @@ int main(int argc, char** argv)
     if (!MC_Initialize(lan_game_settings))
     {
         fprintf(stderr, "\nUnable to initialize MathCards\n");
+        free(lan_game_settings);
         exit(1);
     }
     //Initialize SDL and SDL_net:
     if(SDL_Init(0) == -1)
     {
         fprintf(stderr, "SDL_Init: %s\n", SDL_GetError());
+        free(lan_game_settings);
         return 0;;
     }
     if (SDLNet_Init() < 0)
     {
         fprintf(stderr, "SDLNet_Init: %s\n", SDLNet_GetError());
+        free(lan_game_settings);
+        SDL_Quit();
         return 0;
     }
 
