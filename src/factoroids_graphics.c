@@ -168,6 +168,8 @@ int factoroids_init_graphics(void)
 
     /* Create zoomed and scaled ship image for "lives" counter */
     IMG_lives_ship = rotozoomSurface(images[IMG_SHIP_CLOAKED], 90, zoom * 0.7, 1);
+    
+    return 1;
 }
 
 
@@ -384,16 +386,16 @@ void factoroids_draw(asteroid_type *asteroid, tuxship_type *tuxship, FF_laser_ty
             if(FF_game==FACTOROIDS_GAME)
             {
                 sprintf(str, "%.1d", asteroid[i].fact_number);
-                draw_nums(zoom, str, xnum, ynum, &white);
+                draw_nums(zoom, str, xnum, ynum, (struct SDL_Color *)&white);
             }
             else if (FF_game==FRACTIONS_GAME)
             {
                 sprintf(str, "%d", asteroid[i].a);
-                draw_nums(zoom, str, xnum, ynum, &white);
+                draw_nums(zoom, str, xnum, ynum, (struct SDL_Color *)&white);
                 draw_line(screen, xnum, ynum + 4, xnum + 30, ynum + 4,
                         255, 255, 255);
                 sprintf(str, "%d", asteroid[i].b);
-                draw_nums(zoom, str, xnum, ynum + 35, &white);
+                draw_nums(zoom, str, xnum, ynum + 35, (struct SDL_Color *)&white);
             }
         }
     }

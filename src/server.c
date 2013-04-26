@@ -641,11 +641,15 @@ void check_UDP(int thread_id_no)
             out = SDLNet_AllocPacket(NET_BUF_LEN); 
             snprintf(buf, NET_BUF_LEN, "%s\t%s\t%s",
                     "TUXMATH_SERVER", server_name, Opts_LessonTitle());
-            snprintf(out->data, NET_BUF_LEN, "%s", buf);
+            snprintf((char *)out->data, NET_BUF_LEN, "%s", buf);
             out->len = strlen(buf) + 1;
             out->address.host = in->address.host;
             out->address.port = in->address.port;
             sent = SDLNet_UDP_Send(slave_thread[thread_id_no].udpsock, -1, out);
+            
+            if (sent == 0)
+                fprintf(stderr, "SDLNet_UDP_Send: %s\n", SDLNet_GetError());
+            
             SDLNet_FreePacket(out);
         }
     }

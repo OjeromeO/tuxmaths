@@ -6,6 +6,8 @@
 #include "options.h"
 #include "multiplayer.h"
 #include "tuxmath.h"
+#include "draw_utils.h"
+#include "network.h"
 
 
 void comets_draw_background(SDL_Surface *bkgd, int wave)
@@ -96,7 +98,7 @@ void comets_draw_comets(const comet_type *comets)
 
             if (num_draw)
             {
-                comets_draw_comet_nums(&comets[i], answered, &white);
+                comets_draw_comet_nums(&comets[i], answered, (struct SDL_Color *)&white);
             }
         }
     }
@@ -132,7 +134,7 @@ void comets_draw_comets(const comet_type *comets)
             dest.h = img->h;
             SDL_BlitSurface(img, NULL, screen, &dest);
             if (num_draw)
-                comets_draw_comet_nums(&comets[i], answered, &white);
+                comets_draw_comet_nums(&comets[i], answered, (struct SDL_Color *)&white);
         }
     }
 }
@@ -617,7 +619,7 @@ void comets_draw_powerup(powerup_comet_type* powerup_comet)
     SDL_BlitSurface(img, NULL, screen, &dest);
     if (num_draw)
     {
-        comets_draw_comet_nums(&(powerup_comet->comet), answered, &white);
+        comets_draw_comet_nums(&(powerup_comet->comet), answered, (struct SDL_Color *)&white);
     }
 }
 

@@ -151,7 +151,7 @@ int LAN_DetectServers(void)
         return 0;
     }
     out->address.host = bcast_ip.host;
-    sprintf(out->data, "TUXMATH_CLIENT");
+    sprintf((char *)out->data, "TUXMATH_CLIENT");
     out->address.port = bcast_ip.port;
     out->len = strlen("TUXMATH_CLIENT") + 1;
 
@@ -166,7 +166,7 @@ int LAN_DetectServers(void)
         return 0;
     }
     out_local->address.host = bcast_ip.host;
-    sprintf(out_local->data, "TUXMATH_CLIENT");
+    sprintf((char *)out_local->data, "TUXMATH_CLIENT");
     out_local->address.port = bcast_ip.port;
     out_local->len = strlen("TUXMATH_CLIENT") + 1;
 

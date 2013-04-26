@@ -38,6 +38,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 #include "options.h"
 #include "fileops.h"
 #include "setup.h"
+#include "comets.h"
 
 #ifdef HAVE_LIBSDL_NET
 #include "menu_lan.h"
@@ -228,7 +229,7 @@ int handle_activity(int act, int param)
     }
 
     //re-register resolution switcher
-    T4K_OnResolutionSwitch(&HandleTitleScreenResSwitch);
+    T4K_OnResolutionSwitch((ResSwitchCallback)&HandleTitleScreenResSwitch);
     //redraw if necessary
     RenderTitleScreen();
 
@@ -243,7 +244,7 @@ int handle_activity(int act, int param)
 int run_academy(void)
 {
     int chosen_lesson = -1;
-    T4K_OnResolutionSwitch(&HandleTitleScreenResSwitch);
+    T4K_OnResolutionSwitch((ResSwitchCallback)&HandleTitleScreenResSwitch);
 
     chosen_lesson = run_menu(MENU_LESSONS, true);
     while (chosen_lesson >= 0)
@@ -263,7 +264,7 @@ int run_academy(void)
 
             T4K_OnResolutionSwitch(NULL);
             comets_game(local_game);
-            T4K_OnResolutionSwitch(&HandleTitleScreenResSwitch);
+            T4K_OnResolutionSwitch((ResSwitchCallback)&HandleTitleScreenResSwitch);
 
             /* If successful, display Gold Star for this lesson! */
             if (MC_MissionAccomplished(local_game))
@@ -663,7 +664,7 @@ int RunLoginMenu(void)
     if (n_login_questions > 0)
         title = user_login_questions[0];
 
-    T4K_CreateOneLevelMenu(MENU_LOGIN, n_users, user_names, NULL, title, trailer_quit);
+    T4K_CreateOneLevelMenu(MENU_LOGIN, n_users, user_names, NULL, title, (char *)trailer_quit);
 
     while (n_users) {
         // Get the user choice

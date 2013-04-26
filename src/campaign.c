@@ -34,6 +34,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "fileops.h"
 #include "mathcards.h"
 #include "options.h"
+#include "comets.h"
 
 
 void briefPlayer(int stage); //show text introducing the given stage

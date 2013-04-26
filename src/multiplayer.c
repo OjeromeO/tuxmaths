@@ -36,6 +36,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 #include "fileops.h"
 #include "highscore.h"
 #include "credits.h"
+#include "comets.h"
 
 int params[NUM_PARAMS] = {0, 0, 0, 0};
 

@@ -2272,7 +2272,7 @@ MC_MathQuestion* add_all_valid(MC_MathGame* game,
         MC_MathQuestion** end_of_list)
 {
     int i, j;
-    int ans = 0, tmp;
+    int ans = 0, tmp = 0;
     MC_Operation k;
     MC_MathQuestion* tnode;
 
