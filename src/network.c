@@ -97,7 +97,7 @@ int LAN_DetectServers(void)
     if(SDL_Init(0) == -1)
     {
         DEBUGMSG(debug_lan, "SDL_Init: %s\n", SDL_GetError());
-        return 0;;
+        return 0;
     }
 
     /* Initialize SDL_net */
@@ -114,21 +114,64 @@ int LAN_DetectServers(void)
     if(!udpsock)
     {
         DEBUGMSG(debug_lan, "SDLNet_UDP_Open: %s\n", SDLNet_GetError());
+        SDLNet_Quit();
         return 0;
     }
 
     out = SDLNet_AllocPacket(NET_BUF_LEN);
+    if (!out)
+    {
+        DEBUGMSG(debug_lan, "SDLNet_AllocPacket: %s\n", SDLNet_GetError());
+        SDLNet_UDP_Close(udpsock); 
+        SDLNet_Quit();
+        return 0;
+    }
     out_local = SDLNet_AllocPacket(NET_BUF_LEN);
+    if (!out_local)
+    {
+        DEBUGMSG(debug_lan, "SDLNet_AllocPacket: %s\n", SDLNet_GetError());
+        SDLNet_UDP_Close(udpsock);
+        SDLNet_FreePacket(out);
+        SDLNet_Quit();
+        return 0;
+    }
     in = SDLNet_AllocPacket(NET_BUF_LEN);
+    if (!in)
+    {
+        DEBUGMSG(debug_lan, "SDLNet_AllocPacket: %s\n", SDLNet_GetError());
+        SDLNet_UDP_Close(udpsock);
+        SDLNet_FreePacket(out);
+        SDLNet_FreePacket(out_local);
+        SDLNet_Quit();
+        return 0;
+    }
 
     //Prepare packets for broadcast and (for testing) for localhost:
-    SDLNet_ResolveHost(&bcast_ip, "255.255.255.255", DEFAULT_PORT);
+    if (SDLNet_ResolveHost(&bcast_ip, "255.255.255.255", DEFAULT_PORT) == -1)
+    {
+        DEBUGMSG(debug_lan, "SDLNet_ResolveHost: %s\n", SDLNet_GetError());
+        SDLNet_UDP_Close(udpsock);
+        SDLNet_FreePacket(out);
+        SDLNet_FreePacket(out_local);
+        SDLNet_FreePacket(in);
+        SDLNet_Quit();
+        return 0;
+    }
     out->address.host = bcast_ip.host;
     sprintf(out->data, "TUXMATH_CLIENT");
     out->address.port = bcast_ip.port;
     out->len = strlen("TUXMATH_CLIENT") + 1;
 
-    SDLNet_ResolveHost(&bcast_ip, "255.255.255.255", DEFAULT_PORT);
+    if (SDLNet_ResolveHost(&bcast_ip, "255.255.255.255", DEFAULT_PORT) == -1)
+    {
+        DEBUGMSG(debug_lan, "SDLNet_ResolveHost: %s\n", SDLNet_GetError());
+        SDLNet_UDP_Close(udpsock);
+        SDLNet_FreePacket(out);
+        SDLNet_FreePacket(out_local);
+        SDLNet_FreePacket(in);
+        SDLNet_Quit();
+        return 0;
+    }
     out_local->address.host = bcast_ip.host;
     sprintf(out_local->data, "TUXMATH_CLIENT");
     out_local->address.port = bcast_ip.port;
@@ -150,6 +193,11 @@ int LAN_DetectServers(void)
         {
             DEBUGMSG(debug_lan, "broadcast failed - network inaccessible.\nTrying localhost (for testing)\n");
             sent = SDLNet_UDP_Send(udpsock, -1, out_local);
+            if (!sent)
+            {
+                DEBUGMSG(debug_lan, "broadcast failed - localhost inaccessible.\n");
+                break;
+            }
         }
         SDL_Delay(50);  //give server chance to answer
 
