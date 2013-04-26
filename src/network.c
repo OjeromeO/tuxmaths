@@ -93,13 +93,6 @@ int LAN_DetectServers(void)
         lan_player_info[i].ready = 0;
     }
 
-    /* Docs say we are supposed to call SDL_Init() before SDLNet_Init(): */
-    if(SDL_Init(0) == -1)
-    {
-        DEBUGMSG(debug_lan, "SDL_Init: %s\n", SDL_GetError());
-        return 0;
-    }
-
     /* Initialize SDL_net */
     if (SDLNet_Init() < 0)
     {
