@@ -369,6 +369,18 @@ void handle_debug_args(int argc, char* argv[])
         {
             debug_status |= debug_text_and_intl;
         }
+        else if (strcmp(argv[i], "--debug-linewrap") == 0)
+        {
+            debug_status |= debug_linewrap;
+        }
+        else if (strcmp(argv[i], "--debug-i18n") == 0)
+        {
+            debug_status |= debug_i18n;
+        }
+        else if (strcmp(argv[i], "--debug-multiplayer") == 0)
+        {
+            debug_status |= debug_multiplayer;
+        }
     }/* end of command-line args */
 
     DEBUGMSG(debug_setup,"debug_status: %x", debug_status);
@@ -454,6 +466,9 @@ void handle_command_args(int argc, char* argv[])
                     "                     highscore: loading and saving high scores\n"
                     "                     options: loading and saving options files\n"
                     "                     text-and-intl: text and internationalization\n"
+                    "                     linewrap\n"
+                    "                     i18n\n"
+                    "                     multiplayer\n"
                     "                     all: everything!\n"
                     );
 
